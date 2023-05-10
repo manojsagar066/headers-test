@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Request Headers</title>
+</head>
+<body>
+    <h1>Request Headers</h1>
+    <ul>
+    {% for header, value in headers.items() %}
+        <li><strong>{{ header }}</strong>: {{ value }}</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,23 +1,28 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, render_template, jsonify
 
 app = Flask(__name__)
 
 
-@app.route('/', methods=['GET', 'POST', 'PUT', 'DELETE', 'PATCH'])
-def log_headers():
-    try:
-        print("Request Headers:")
-        for header, value in request.headers.items():
-            print(f"{header}: {value}")
+@app.route('/', methods=['GET', 'POST'])
+def home_page():
+    print("Request Headers:")
+    headers = {}
+    for header, value in request.headers.items():
+        headers[header] = value
+    return render_template('headers.html', headers=headers)
 
-        return "Headers logged."
-    except Exception as e:
-        response = {
-            "error": str(e),
-            "type": type(e).__name__
-        }
-        return jsonify(response), 500
+
+@app.route('/test', methods=['GET', 'POST'])
+def log_headers():
+    # return headers sent by the user
+    print("Request Headers:")
+    headers = list(request.headers)
+    print("Request Headers:")
+    for header, value in headers:
+        print(f"{header}: {value}")
+
+    return jsonify(headers)
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host="0.0.0.0", port=4000)
